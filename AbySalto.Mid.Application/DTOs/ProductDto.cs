@@ -1,0 +1,11 @@
+using System;
+
+namespace AbySalto.Mid.Application.DTOs;
+
+public class ProductDto
+{
+    public int Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+}
