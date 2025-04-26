@@ -13,31 +13,6 @@ public class JwtService (IConfiguration config) : IJwtService
 {
     public string CreateToken(User user)
     {
-        // var tokenKey = config["Jwt:Key"] ?? throw new Exception("Cannot access tokenKey from appsettings");
-        // if(tokenKey.Length < 64) throw new Exception ("Your tokenKey needs to be longer");
-        // var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
-
-        // var claims = new List<Claim>{
-        //     new(ClaimTypes.NameIdentifier, user.Username),
-        //     new(ClaimTypes.Name, user.Username)
-        // };
-
-        // var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-        // var tokenDescriptor = new SecurityTokenDescriptor{
-        //     Subject = new ClaimsIdentity(claims),
-        //     Expires = DateTime.UtcNow.AddMinutes(int.Parse(config["Jwt:ExpiresInMinutes"]!)),
-        //     SigningCredentials = creds,
-        //     Issuer = config["Jwt:Issuer"],
-        //     Audience = config["Jwt:Audience"]
-        // };
-
-        // var tokenHandler = new JwtSecurityTokenHandler();
-
-        // var token = tokenHandler.CreateToken(tokenDescriptor);
-
-        // return tokenHandler.WriteToken(token);
-
         var tokenKey = config["TokenKey"] ?? throw new Exception("Cannot access tokenKey from appsettings");
         if(tokenKey.Length < 64) throw new Exception ("Your tokenKey needs to be longer");
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));

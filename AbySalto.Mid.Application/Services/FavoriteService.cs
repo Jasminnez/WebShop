@@ -10,11 +10,14 @@ namespace AbySalto.Mid.Application.Services;
 public class FavoriteService : IFavoriteService
 {
     private readonly AppDbContext _context;
+    private readonly IProductService _productService;
 
-    public FavoriteService(AppDbContext context)
+    public FavoriteService(AppDbContext context, IProductService productService)
     {
-        _context = context;
+        _context = context; 
+        _productService = productService;
     }
+
     public async Task AddToFavoritesAsync(int userId, int productId)
     {
         var exists = await _context.UserFavoriteProducts
@@ -50,6 +53,32 @@ public class FavoriteService : IFavoriteService
         return favorites;
     }
 
+    public async Task<List<ProductDto>> GetFavoriteProductsAsync(int userId)
+    {
+        var favoriteProductIds = await _context.UserFavoriteProducts
+        .Where(ufp => ufp.UserId == userId)
+        .Select(ufp => ufp.ProductId)
+        .ToListAsync();
+
+    if (favoriteProductIds == null || !favoriteProductIds.Any())
+    {
+        return new List<ProductDto>();
+    }
+
+    var productDtos = new List<ProductDto>();
+
+    foreach (var productId in favoriteProductIds)
+    {
+        var product = await _productService.GetByIdAsync(productId);
+
+        if (product != null)
+        {
+            productDtos.Add(product);
+        }
+    }
+
+    return productDtos;
+    }
     public async Task RemoveFromFavoritesAsync(int userId, int productId)
     {
         var fav = await _context.UserFavoriteProducts

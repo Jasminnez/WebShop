@@ -27,7 +27,7 @@ namespace AbySalto.Mid.Controllers
         public async Task<IActionResult> GetCart()
         {
             var userId = GetUserIdFromClaims();
-            var cart = await _cartService.GetCartAsync(userId);
+            var cart = await _cartService.GetCartProductsAsync(userId);
             return Ok(cart);
         }
         [HttpDelete("remove")]

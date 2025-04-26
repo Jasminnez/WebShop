@@ -1,14 +1,7 @@
-using System.Security.Cryptography;
-using System.Text;
 using AbySalto.Mid.Application.DTOs;
 using AbySalto.Mid.Application.Interfaces;
-using AbySalto.Mid.Domain.Entities;
-using AbySalto.Mid.Infrastructure.Persistence;
-using AbySalto.Mid.Infrastructure.Services.Interfaces;
 using API.Controllers;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AbySalto.Mid.WebApi.Controllers
 {
@@ -36,7 +29,7 @@ namespace AbySalto.Mid.WebApi.Controllers
             if (string.IsNullOrEmpty(token))
                 return Unauthorized("Invalid username or password");
 
-            return Ok(token);
+            return Ok(new { username = dto.Username, token = token });
 
         }
     }

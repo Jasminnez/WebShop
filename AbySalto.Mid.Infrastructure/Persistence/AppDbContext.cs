@@ -22,16 +22,16 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.Entity<UserFavoriteProduct>()
-            .HasKey(ufp => new { ufp.UserId, ufp.ProductId });
+        .HasKey(ufp => new { ufp.UserId, ufp.ProductId });
 
-        modelBuilder.Entity<UserFavoriteProduct>()
-            .HasOne(ufp => ufp.User)
-            .WithMany(u => u.FavoriteProducts)
-            .HasForeignKey(ufp => ufp.UserId);
+    modelBuilder.Entity<UserFavoriteProduct>()
+        .HasOne(ufp => ufp.User)
+        .WithMany(u => u.FavoriteProducts)
+        .HasForeignKey(ufp => ufp.UserId);
 
-        modelBuilder.Entity<UserFavoriteProduct>()
-            .HasOne(ufp => ufp.Product)
-            .WithMany()
-            .HasForeignKey(ufp => ufp.ProductId);
+    modelBuilder.Entity<UserFavoriteProduct>()
+        .HasOne(ufp => ufp.Product)
+        .WithMany()
+        .HasForeignKey(ufp => ufp.ProductId);
     }
 }

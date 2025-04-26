@@ -45,7 +45,6 @@ public class CartService : ICartService
     {
         var cart = await _context.Carts
             .Include(c => c.Items)
-            .ThenInclude(i => i.Product)
             .FirstOrDefaultAsync(c => c.UserId == userId);
 
         if (cart == null)
@@ -57,9 +56,33 @@ public class CartService : ICartService
         {
             ProductId = i.ProductId,
             Quantity = i.Quantity,
-            ProductTitle = i.Product.Title,
-            Price = i.Product.Price
         }).ToList();    
+    }
+
+    public async Task<List<ProductDto>> GetCartProductsAsync(int userId)
+    {
+        var cart = await _context.Carts
+            .Include(c => c.Items)
+            .FirstOrDefaultAsync(c => c.UserId == userId);
+
+        if (cart == null)
+        {
+            return new List<ProductDto>();
+        }
+
+        var productDtos = new List<ProductDto>();
+        IProductService ProductService = new ProductService(new HttpClient(), _context);
+        foreach (var item in cart.Items)
+        {
+            var product = await ProductService.GetByIdAsync(item.ProductId);
+
+            if (product != null)
+            {
+                productDtos.Add(product);
+            }
+        }
+
+        return productDtos;
     }
 
     public async Task RemoveFromCartAsync(int userId, int productId)

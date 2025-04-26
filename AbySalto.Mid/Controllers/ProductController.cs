@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AbySalto.Mid.Controllers
 {
-    public class ProductController : Controller
+    public class ProductController : BaseApiController
     {
         private readonly IProductService _productService;
 
@@ -15,9 +15,9 @@ namespace AbySalto.Mid.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(int skip = 0, int limit = 10)
         {
-            var products = await _productService.GetAllAsync();
+            var products = await _productService.GetAllAsync(skip, limit);
             return Ok(products);
         }
         [Authorize]

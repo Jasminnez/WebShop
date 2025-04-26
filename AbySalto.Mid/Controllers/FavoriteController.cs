@@ -36,7 +36,7 @@ namespace AbySalto.Mid.WebApi.Controllers
         public async Task<IActionResult> GetFavorites()
         {
             var userId = GetUserIdFromClaims();
-            var favorites = await _favoriteService.GetFavoritesAsync(userId);
+            var favorites = await _favoriteService.GetFavoriteProductsAsync(userId);
             return Ok(favorites);
         }
 

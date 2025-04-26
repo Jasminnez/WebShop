@@ -8,4 +8,5 @@ public interface IFavoriteService
     Task AddToFavoritesAsync(int userId, int productId);
     Task RemoveFromFavoritesAsync(int userId, int productId);
     Task<List<ProductDto>> GetFavoritesAsync(int userId);
+    Task<List<ProductDto>> GetFavoriteProductsAsync(int userId);
 }
